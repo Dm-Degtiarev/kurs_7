@@ -1,3 +1,29 @@
-from django.shortcuts import render
+from rest_framework import generics
+from .serializers import HabitSerializer
+from .models import Habit
 
-# Create your views here.
+
+class HabitListView(generics.ListCreateAPIView):
+    permission_classes = []
+    serializer_class = HabitSerializer
+    queryset = Habit.objects.all()
+
+class HabitDetailView(generics.RetrieveAPIView):
+    permission_classes = []
+    serializer_class = HabitSerializer
+    queryset = Habit.objects.all()
+
+class HabitCreateView(generics.CreateAPIView):
+    permission_classes = []
+    serializer_class = HabitSerializer
+    queryset = Habit.objects.all()
+
+class HabitDeleteView(generics.DestroyAPIView):
+    permission_classes = []
+    serializer_class = HabitSerializer
+    queryset = Habit.objects.all()
+
+class HabitUpdateView(generics.UpdateAPIView):
+    permission_classes = []
+    serializer_class = HabitSerializer
+    queryset = Habit.objects.all()
