@@ -5,6 +5,7 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class Habit(Model):
+    """Модель "Привычка" """
     user = ForeignKey('user.User', on_delete=CASCADE, verbose_name="Пользователь")
     place = CharField(max_length=150, verbose_name="Место")
     time = TimeField(default='00:00:00', verbose_name="Время")

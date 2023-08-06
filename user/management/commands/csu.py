@@ -7,9 +7,9 @@ from user.models import User
 class Command(BaseCommand):
     def handle(self, *args, **options):
         user = User.objects.create(
-            email='admin@django.ru',
-            first_name='Admin',
-            last_name='SkyPro',
+            email='djangoproject1639@yandex.ru',
+            first_name='Django',
+            last_name='Djangarov',
             is_staff=True,
             is_superuser=True,
         )

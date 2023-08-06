@@ -34,7 +34,7 @@ class HabitTimeForExecutionValidator:
     def __call__(self, value):
         time_for_execution = value.get('time_for_execution')
 
-        if time_for_execution > time(0, 2, 0):
+        if time_for_execution is not None and time_for_execution > time(0, 2, 0):
             raise serializers.ValidationError('Время выполнения должно быть не больше 120 секунд!')
 
 class HabitPeriodicityValidator:
@@ -42,5 +42,5 @@ class HabitPeriodicityValidator:
     def __call__(self, value):
         periodicity = value.get('periodicity')
 
-        if periodicity > 7:
+        if periodicity is not None and periodicity > 7:
             raise serializers.ValidationError('Нельзя выполнять привычку реже, чем 1 раз в 7 дней!')

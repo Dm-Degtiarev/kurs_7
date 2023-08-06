@@ -1,32 +1,47 @@
+from django.db.models import Q
 from rest_framework import generics
-
+from rest_framework.permissions import IsAuthenticated
 from .pagination import HabitPagination
+from .permissions import OwnerPermission, PublicHabitPermission
 from .serializers import HabitSerializer
 from .models import Habit
 
 
 class HabitListView(generics.ListCreateAPIView):
-    permission_classes = []
+    """Представление вывода списка привычек"""
+    permission_classes = [IsAuthenticated, OwnerPermission | PublicHabitPermission]
     serializer_class = HabitSerializer
     pagination_class = HabitPagination
     queryset = Habit.objects.all()
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            queryset = Habit.objects.filter(Q(user=user) | Q(publicity_flag=True))
+        else:
+            queryset = Habit.objects.filter(publicity_flag=True)
+        return queryset
+
 class HabitDetailView(generics.RetrieveAPIView):
-    permission_classes = []
+    """Представление вывода привычки"""
+    permission_classes = [IsAuthenticated, OwnerPermission | PublicHabitPermission]
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
 class HabitCreateView(generics.CreateAPIView):
-    permission_classes = []
+    """Представление создания Привычки"""
+    permission_classes = [IsAuthenticated]
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
 class HabitDeleteView(generics.DestroyAPIView):
-    permission_classes = []
+    """Представление удаления Привычки"""
+    permission_classes = [IsAuthenticated, OwnerPermission]
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
 class HabitUpdateView(generics.UpdateAPIView):
-    permission_classes = []
+    """Представление изменения Привычки"""
+    permission_classes = [IsAuthenticated, OwnerPermission]
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
