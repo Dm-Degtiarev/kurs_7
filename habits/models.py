@@ -12,7 +12,7 @@ class Habit(Model):
     pleasure_flag = BooleanField(default=False, verbose_name="Признак приятной привычки")
     related_habit = ForeignKey('self', on_delete=SET_NULL, verbose_name="Связанная привычка", **NULLABLE)
     periodicity = PositiveIntegerField(default=1, verbose_name="Периодичность (в днях)")
-    reward = CharField(max_length=100, default='Отсутствует', verbose_name="Вознаграждение")
+    reward = CharField(max_length=100, verbose_name="Вознаграждение", **NULLABLE)
     time_for_execution = TimeField(default='00:01:00', verbose_name="Время на выполнение")
     publicity_flag = BooleanField(default=False, verbose_name="Признак публичности")
 
@@ -22,3 +22,9 @@ class Habit(Model):
     class Meta:
         verbose_name = "Привычка"
         verbose_name_plural = "Привычки"
+
+
+# У приятной привычки не может быть связанной привычки и вознаграждения
+# У полезной привыки (обычная) - может быть связанная привычка но только приятная
+# Если есть связанная привычка - то не может быть вознаграждения. Если есть вознаграждение - не должно быть связанной привычки
+# Сделать права на "признак публичности"
