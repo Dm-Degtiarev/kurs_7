@@ -16,11 +16,9 @@ class HabitListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_authenticated:
-            queryset = Habit.objects.filter(Q(user=user) | Q(publicity_flag=True))
-        else:
-            queryset = Habit.objects.filter(publicity_flag=True)
+        queryset = Habit.objects.filter(Q(user=user) | Q(publicity_flag=True))
         return queryset
+
 
 class HabitDetailView(generics.RetrieveAPIView):
     """Представление вывода привычки"""
