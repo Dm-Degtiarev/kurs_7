@@ -32,6 +32,10 @@ class HabitCreateView(generics.CreateAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 class HabitDeleteView(generics.DestroyAPIView):
     """Представление удаления Привычки"""
     permission_classes = [IsAuthenticated, OwnerPermission]
