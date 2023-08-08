@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 NULLABLE = {'null': True, 'blank': True}
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -27,8 +28,11 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     username = None
+    tg_nickname = models.CharField(max_length=100, verbose_name='Никнейм в телеграм', **NULLABLE)
+    tg_id = models.CharField(max_length=100, verbose_name='ID пользователя в телеграм', **NULLABLE)
     email = models.EmailField(unique=True, verbose_name='email')
     avatar = models.ImageField(upload_to='avatars', verbose_name='Аватар', **NULLABLE)
     phone_number = models.CharField(max_length=20, verbose_name='Номер телефона', **NULLABLE)

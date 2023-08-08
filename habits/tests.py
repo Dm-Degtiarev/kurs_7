@@ -95,6 +95,7 @@ class HabbitTestCase(APITestCase):
     def test_habit_update(self):
         """Тестирование изменения привычки"""
         url = reverse('habits:habit_update', kwargs={'pk': self.habit.id})
+
         response = self.client.patch(url, {'place': 'Питер'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), {
@@ -110,4 +111,3 @@ class HabbitTestCase(APITestCase):
             'user': 1,
             'related_habit': None
         })
-

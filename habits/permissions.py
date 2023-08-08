@@ -7,6 +7,7 @@ class OwnerPermission(permissions.BasePermission):
             return True
         return False
 
+
 class PublicHabitPermission(permissions.BasePermission):
     """Позволяет просматривать публичные привычки всем авторизованным пользователям"""
     def has_object_permission(self, request, view, obj):
