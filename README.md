@@ -21,6 +21,7 @@
 
 # Docker
 Для windows необходимо установить desktop версию Docker.
+
 Для Linux: https://docs.docker.com/engine/install/ - выбираем необходимую ОС
 
 После успешной утсановки необходимо выполнить команду: docker-compose up --build
