@@ -19,6 +19,12 @@
 
 Привычки уже заведены в БД, при необходимости можно дополнить список. 
 
+# Docker
+Для windows необходимо установить desktop версию Docker.
+Для Linux: https://docs.docker.com/engine/install/ - выбираем необходимую ОС
+
+После успешной утсановки необходимо выполнить команду: docker-compose up --build
+
 # Документация
 api/redoc или api/swagger
 
