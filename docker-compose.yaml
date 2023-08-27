@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   db:
@@ -8,15 +8,20 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: pg_isready -U postgres -d kurs_8
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
     volumes:
       - ./pgdata:/var/lib/postgresql/data
 
   redis:
     image: redis
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   api:
     build: .
@@ -25,7 +30,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "sleep 5 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      redis:
+        condition: service_healthy
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 
   celery_worker:
     build: .
@@ -41,6 +48,3 @@ services:
       - redis
       - celery_worker
     command: sh -c "sleep 30 && celery -A config beat -l info --loglevel=info"
-
-volumes:
-  db:
